@@ -1,6 +1,5 @@
 TODOs:
 
-- initialize source files
 - get libsndfile for soundfile I/O
 - get a build system (waf, autotools???)
 - let build system make the binary
