@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_INIT([audio_amp], [0.0.0], [manuel.planton@gmail.com])
 AC_CONFIG_SRCDIR([src/amp.c])
 AC_CONFIG_HEADERS([config.h])
 
