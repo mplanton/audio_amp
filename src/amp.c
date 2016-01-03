@@ -7,5 +7,6 @@
 
 int main(int argc, char **argv)
 {
-  
+  testPrint();
+  return 0;
 }

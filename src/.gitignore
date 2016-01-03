@@ -1,0 +1,5 @@
+# git ignores the following files / patterns
+.deps/
+
+# binary
+audio_amp
