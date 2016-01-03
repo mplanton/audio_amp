@@ -1,7 +1,4 @@
 TODOs:
 
-- create .gitignore files for generated files
-- initialize Autotools
-- let build system make the binary
 - create unit tests with a tool or with shell scripts, make???
 - test with valgrind

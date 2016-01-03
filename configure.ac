@@ -3,6 +3,9 @@
 
 AC_PREREQ([2.69])
 AC_INIT([audio_amp], [0.0.0], [manuel.planton@gmail.com])
+# initialize automake
+AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+
 AC_CONFIG_SRCDIR([src/amp.c])
 AC_CONFIG_HEADERS([config.h])
 
