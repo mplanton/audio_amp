@@ -1,4 +1,7 @@
 TODOs:
 
+- make the program do something useful.
 - create unit tests with a tool or with shell scripts, make???
 - test with valgrind
+- 'configure.ac': check for libsndfile1 and libsndfile1-dev and other
+  dependencies.
