@@ -13,7 +13,15 @@ such as:
 - dft/fft
 ...
 
-Building instructions:
+
+Build instructions:
+==================
 
 If there is no 'configure' script, run the 'autogen.sh' shell script.
 This will generate  it.
+
+Then run:
+'configure && make'
+
+And if you want to install, run:
+'sudo make install'
