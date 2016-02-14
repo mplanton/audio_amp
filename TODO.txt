@@ -5,3 +5,4 @@ TODOs:
 - test with valgrind
 - 'configure.ac': check for libsndfile1 and libsndfile1-dev and other
   dependencies.
+- Use Threads for main processing loop.
