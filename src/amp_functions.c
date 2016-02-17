@@ -10,6 +10,6 @@ void testPrint(void)
 
 void printUsage(void)
 {
-  printf("USAGE: audio_amp <input soundfile-path> <amp-factor>\n"
+  printf("USAGE: audio_amp <input soundfile-path> <output-soundfile-path> <amp-factor>\n"
          "'audio_amp' scales the input-soundfile with the amp-factor.\n");
 }

@@ -6,13 +6,14 @@ AC_INIT([audio_amp], [0.0.0], [manuel.planton@gmail.com])
 # initialize automake
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
-AC_CONFIG_SRCDIR([src/amp.c])
+AC_CONFIG_SRCDIR([src/audio_amp.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
 
 # Checks for libraries.
+# TODO: get paths and use in Makefile.am's for prog_LDADD
 
 # Checks for header files.
 
