@@ -14,13 +14,14 @@
 enum ARGS {PROG_NAME, IN_FILE_NR, OUT_FILE_NR, AMP_FACTOR_NR, ARG_NR};
 
 #define ARG_NUM ARG_NR-1 // number of arguments
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2048
 
 int main(int argc, char **argv)
 {
   char *in_file_path = "";
   char *out_file_path = "";
   float amp_factor = 0;
+  int out_format = 0;
   
   // file pointers
   SNDFILE *in_file = NULL;
@@ -65,7 +66,19 @@ int main(int argc, char **argv)
     puts(sf_strerror(in_file));
     exit(EXIT_FAILURE);
   }
-  
+
+
+  out_format = guessMajorFileFormat(out_file_path);
+  if(out_format < 0)
+  {
+    printf("ERROR: Could not find a valid file format from file extension "
+           "for output-file '%s'\n", out_file_path);
+    exit(EXIT_FAILURE);
+  }
+
+  sf_info.format = out_format | SF_FORMAT_FLOAT; // add subtype format
+
+
   // open output file
   out_file = sf_open(out_file_path, SFM_WRITE, &sf_info);
   if(out_file == NULL)
@@ -80,20 +93,20 @@ int main(int argc, char **argv)
   sf_count_t frames_read = 0;
   sf_count_t frames_written = 0;
   sf_count_t counter = 0;
-  double buffer[BUFFER_SIZE * sf_info.channels];
+  float buffer[BUFFER_SIZE * sf_info.channels];
   
   while(1)
   {
-    // wie werden mehrere channels gespeichert?
-    frames_read = sf_readf_double(in_file, buffer, BUFFER_SIZE);
+    frames_read = sf_readf_float(in_file, buffer, BUFFER_SIZE);
+    if(frames_read == 0) break;
     
     // processing
-    for(counter = 0; counter < frames_read; counter++)
+    for(counter = 0; counter < frames_read * sf_info.channels; counter++)
     {
-      buffer[counter] = (double) (amp_factor) * buffer[counter];
+      buffer[counter] = amp_factor * buffer[counter];
     }
     
-    frames_written = sf_writef_double(out_file, buffer, frames_read);
+    frames_written = sf_writef_float(out_file, buffer, frames_read);
     if(frames_written != frames_read)
     {
       printf("ERROR: There was a problem writing to file %s! "
@@ -103,10 +116,7 @@ int main(int argc, char **argv)
     }
     
     // End of File
-    if(frames_read < BUFFER_SIZE)
-    {
-      break;
-    }
+    if(frames_read < BUFFER_SIZE) break;
   }
   
   // clean up
