@@ -14,7 +14,7 @@
 enum ARGS {PROG_NAME, IN_FILE_NR, OUT_FILE_NR, AMP_FACTOR_NR, ARG_NR};
 
 #define ARG_NUM ARG_NR-1 // number of arguments
-
+#define BUFFER_SIZE 1024
 
 int main(int argc, char **argv)
 {
@@ -62,25 +62,52 @@ int main(int argc, char **argv)
   if(in_file == NULL)
   {
     printf("ERROR: Could not open input file %s!\n", in_file_path);
-    sf_perror(NULL);
+    puts(sf_strerror(in_file));
     exit(EXIT_FAILURE);
   }
-  
-  printf("DEBUG: Samplerate: %d, Channels: %d, Format: %x.\n",
-  sf_info.samplerate, sf_info.channels, sf_info.format);
   
   // open output file
   out_file = sf_open(out_file_path, SFM_WRITE, &sf_info);
   if(out_file == NULL)
   {
     printf("ERROR: Could not open output file %s!\n", out_file_path);
-    sf_perror(NULL);
+    puts(sf_strerror(out_file));
     exit(EXIT_FAILURE);
   }
   
   
-  // main loop
+  // main processing loop
+  sf_count_t frames_read = 0;
+  sf_count_t frames_written = 0;
+  sf_count_t counter = 0;
+  double buffer[BUFFER_SIZE * sf_info.channels];
   
+  while(1)
+  {
+    // wie werden mehrere channels gespeichert?
+    frames_read = sf_readf_double(in_file, buffer, BUFFER_SIZE);
+    
+    // processing
+    for(counter = 0; counter < frames_read; counter++)
+    {
+      buffer[counter] = (double) (amp_factor) * buffer[counter];
+    }
+    
+    frames_written = sf_writef_double(out_file, buffer, frames_read);
+    if(frames_written != frames_read)
+    {
+      printf("ERROR: There was a problem writing to file %s! "
+             "It may be damaged!\n", out_file_path);
+      puts(sf_strerror(out_file));
+      break;
+    }
+    
+    // End of File
+    if(frames_read < BUFFER_SIZE)
+    {
+      break;
+    }
+  }
   
   // clean up
   sf_close(in_file);
