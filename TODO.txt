@@ -1,8 +1,10 @@
 TODOs:
 
-- make the program do something useful.
 - create unit tests with a tool or with shell scripts, make???
 - test with valgrind
 - 'configure.ac': check for libsndfile1 and libsndfile1-dev and other
   dependencies.
 - Use Threads for main processing loop.
+- make a fork to develop a distortion program out of the audio_amp
+- do something like a pull request to merge the two programs together
+- implement another signal processing algorithm
